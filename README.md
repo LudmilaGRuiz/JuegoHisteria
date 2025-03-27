@@ -9,7 +9,7 @@ Este clic cambia el color de la casilla a uno aleatorio de entre 6 posibles.
 La dificultad radica en evitar que dos celdas vecinas tengan el mismo color.
 
 # Integrantes 
- Ludmila Ruiz
- Nahuel Godoy
- Juan Gallardo
- Gaston Ocampo
+* Ludmila Ruiz
+* Nahuel Godoy 
+* Juan Gallardo 
+* Gaston Ocampo 
