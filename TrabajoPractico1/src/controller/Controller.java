@@ -8,12 +8,15 @@ import view.PantallaJuego;
 
 public class Controller{
 	
+
 	public static void main(String[] args) {
+		
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					Presentador presenter = new Presentador();
-					PantallaInicio pntInicio = new PantallaInicio(presenter);
+					PantallaInicio inicio = new PantallaInicio(presenter);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -23,7 +26,7 @@ public class Controller{
 	
 	public void irAMenu(PantallaJuego juego, Presentador presenter) {
 		juego.getPantallaJuego().setVisible(false);
-		PantallaInicio pntInicio = new PantallaInicio(presenter);
+		PantallaInicio inicio = new PantallaInicio(presenter);
 	}
 
 	public void abrirJuego(String nombreUsuario, Presentador presenter) {

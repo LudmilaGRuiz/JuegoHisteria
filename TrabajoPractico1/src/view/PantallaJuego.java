@@ -1,9 +1,7 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,13 +28,13 @@ public class PantallaJuego {
 	 */
 	public PantallaJuego(Controller controller) {
 		//this.recordHistorico = presenter.getRecord();
-		this.controller = controller;
+		this.setController(controller);
 		initialize();
 	}
 	
 	public PantallaJuego(Controller controller, Presentador presenter) {
 		this.presenter = presenter;
-		this.controller = controller;
+		this.setController(controller);
 		initialize();
 	}
 
@@ -89,6 +87,22 @@ public class PantallaJuego {
 
 	public void setPantallaJuego(JFrame pantallaJuego) {
 		this.pantallaJuego = pantallaJuego;
+	}
+
+	public JTextField getTituloJuego() {
+		return tituloJuego;
+	}
+
+	public void setTituloJuego(JTextField tituloJuego) {
+		this.tituloJuego = tituloJuego;
+	}
+
+	public Controller getController() {
+		return controller;
+	}
+
+	public void setController(Controller controller) {
+		this.controller = controller;
 	}
 
 }
