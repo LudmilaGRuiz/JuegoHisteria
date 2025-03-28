@@ -59,7 +59,8 @@ public class PantallaJuego {
 		juego.setBounds(452, 0, 812, 761);
 		juego.setBackground(SystemColor.windowBorder);
 		juego.setPreferredSize(new Dimension(800, 800));
-		juego.setLayout(new GridLayout(presenter.tamañoGrilla(), presenter.tamañoGrilla()));
+		//juego.setLayout(new GridLayout(5,5));			//descomentar para ver el design
+		juego.setLayout(new GridLayout(presenter.tamañoGrilla(), presenter.tamañoGrilla())); //comentar para ver el design
 		getPantallaJuego().getContentPane().add(juego);
 
 		JButton[][] botones = new JButton[presenter.tamañoGrilla()][presenter.tamañoGrilla()];
