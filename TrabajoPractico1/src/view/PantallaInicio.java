@@ -60,7 +60,7 @@ public class PantallaInicio {
 		
 		pantallaInicio = new JFrame();
 		pantallaInicio.setResizable(false);
-		pantallaInicio.setSize(1280, 800);
+		pantallaInicio.setSize(1200, 800);
 		pantallaInicio.setLocationRelativeTo(null);
 		pantallaInicio.getContentPane().setLayout(null);
 		pantallaInicio.getContentPane().setForeground(Color.WHITE);

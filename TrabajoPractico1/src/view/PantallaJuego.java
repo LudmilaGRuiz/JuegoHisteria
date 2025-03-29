@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import controller.Controller;
+import model.Celda;
 import model.Presentador;
 
 import java.awt.SystemColor;
@@ -60,10 +61,10 @@ public class PantallaJuego {
 		juego.setBackground(SystemColor.windowBorder);
 		juego.setPreferredSize(new Dimension(800, 800));
 		//juego.setLayout(new GridLayout(5,5));			//descomentar para ver el design
-		juego.setLayout(new GridLayout(presenter.tamañoGrilla(), presenter.tamañoGrilla())); //comentar para ver el design
+		juego.setLayout(new GridLayout(presenter.tamanioGrilla(), presenter.tamanioGrilla())); //comentar para ver el design
 		getPantallaJuego().getContentPane().add(juego);
 
-		JButton[][] botones = new JButton[presenter.tamañoGrilla()][presenter.tamañoGrilla()];
+		JButton[][] botones = new JButton[presenter.tamanioGrilla()][presenter.tamanioGrilla()];
 		for (int i = 0; i < botones.length; i++) {
 			for (int j = 0; j < botones[i].length; j++) {
 				botones[i][j] = new JButton();
@@ -73,7 +74,14 @@ public class PantallaJuego {
 				botones[i][j].addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						presenter.cambiarColor(x, y);
-				        botones[x][y].setBackground(presenter.colorAwt(presenter.getColor(x, y)));
+						Celda celda = presenter.getCelda(x, y);
+						Color color = presenter.colorAwt(celda.getColor());
+						botones[x][y].setBackground(color);
+						if(!presenter.validarVecinos(celda)) {
+							//TODO podemos crear otra pantalla de pérdida
+						}
+						System.out.println(String.format("Color de celda %s, X = %d, Y = %d", celda.getColor().name(),
+								celda.getCoordX(), celda.getCoordY()));
 					}
 				});
 				juego.add(botones[i][j]);

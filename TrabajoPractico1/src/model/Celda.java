@@ -11,7 +11,7 @@ public class Celda {
 		this.coordX = coordX;
 		this.coordY = coordY;
 		this.vecinos = new ArrayList<Celda>();
-		this.color = null;
+		this.color = ColordeCelda.GREY;
 	}
 
 	public int getCoordX() {

@@ -3,8 +3,14 @@ package model;
 import java.util.Random;
 
 public class Presentador {
+
 	private Celda[][] grilla;
-	
+	private ValidadorDeColoresVecinos validadorDeColoresVecinos;
+
+	public Presentador() {
+		this.validadorDeColoresVecinos = new ValidadorDeColoresVecinos();
+	}
+
 	public void iniciarJuego(int nivel) {
 		switch(nivel) {
 		case 0 -> throw new RuntimeException("Ingrese un nivel valido");
@@ -15,6 +21,12 @@ public class Presentador {
 		case 5 -> crearGrilla(9);
 		}
 	}
+
+	public Boolean validarVecinos(Celda celda) {
+		Boolean esValido = validadorDeColoresVecinos.validar(grilla, celda);
+		if(!esValido) System.out.println("El color coincide con al menos 1 vecino");
+		return esValido;
+	}
 		
 	public void crearGrilla(int tamaño) {
 		this.grilla = new Celda[tamaño][tamaño];
@@ -23,7 +35,6 @@ public class Presentador {
 				grilla[i][j] = new Celda(i, j);
 			}
 		}
-		
 	}
 	private ColordeCelda colorRandom () {
 		Random rand = new Random();
@@ -38,6 +49,15 @@ public class Presentador {
 	
 	public ColordeCelda getColor(int x, int y) {
 	    return grilla[x][y].getColor();
+	}
+
+	public Celda getCelda(int x, int y) {
+		try {
+			return grilla[x][y];
+		} catch (IndexOutOfBoundsException e) {
+			System.out.println("Error buscando celda, coordenadas inválidas");
+			throw e;
+		}
 	}
 	
     public java.awt.Color colorAwt(ColordeCelda color) {
@@ -62,7 +82,7 @@ public class Presentador {
         }
     }
 
-	public int tamañoGrilla() {
+	public int tamanioGrilla() {
 		return grilla.length;
 	}
 	
