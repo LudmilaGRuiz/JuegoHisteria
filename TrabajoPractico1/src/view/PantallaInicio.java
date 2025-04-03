@@ -30,7 +30,7 @@ public class PantallaInicio {
 	private Presentador presenter;
 	private Controller controller;
 	private JFrame pantallaInicio;
-	private JTextField textField;
+	private JTextField nameField;
 	private String nombreUsuario;
 	private Integer nivel;
 	
@@ -102,10 +102,10 @@ public class PantallaInicio {
 		mntmNewMenuItem_1.setSelected(true);
 		mnNewMenu.add(mntmNewMenuItem_1);
 		
-		textField = new JTextField();
-		textField.setBounds(631, 279, 228, 29);
-		pantallaInicio.getContentPane().add(textField);
-		textField.setColumns(10);
+		nameField = new JTextField();
+		nameField.setBounds(631, 279, 228, 29);
+		pantallaInicio.getContentPane().add(nameField);
+		nameField.setColumns(10);
 		
 		JLabel lblNombre = new JLabel("Ingrese su nombre:");
 		lblNombre.setBounds(369, 279, 263, 31);
@@ -125,18 +125,40 @@ public class PantallaInicio {
 		inputNivel.setModel(new DefaultComboBoxModel<String>(new String[] {"", "Principiante (5x5)", "Facil (6x6)", "Normal (7x7)", "Dificil (8x8)", "Experto (9x9)"}));
 		pantallaInicio.getContentPane().add(inputNivel);
 		
+		JLabel avisoInputNombre = new JLabel("* Ingrese un nombre válido");
+		avisoInputNombre.setForeground(Color.RED);
+		avisoInputNombre.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 14));
+		avisoInputNombre.setBounds(631, 255, 218, 24);
+		pantallaInicio.getContentPane().add(avisoInputNombre);
+		avisoInputNombre.setVisible(false);
+		
+		JLabel avisoInputNivel = new JLabel("* Ingrese un nivel válido");
+		avisoInputNivel.setForeground(Color.RED);
+		avisoInputNivel.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 14));
+		avisoInputNivel.setBounds(631, 347, 218, 24);
+		pantallaInicio.getContentPane().add(avisoInputNivel);
+		avisoInputNivel.setVisible(false);
+		
+		
 		JButton btnPlay = new JButton("Jugar");
 		btnPlay.setBounds(520, 484, 228, 55);
 		btnPlay.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				 String nombreIngresado = lblNombre.getText().trim(); 
-
-				 nivel = inputNivel.getSelectedIndex();
-				 nombreUsuario = nombreIngresado;
-				 presenter.iniciarJuego(nivel);
-				 controller.abrirJuego(nombreUsuario, presenter);
+				String nombreIngresado = nameField.getText().trim(); 
+				
+				if(nombreIngresado.length()<2) 
+					avisoInputNombre.setVisible(true);
+				else if (inputNivel.getSelectedIndex()==0)
+					avisoInputNivel.setVisible(true);
+				
+				else{
+					nivel = inputNivel.getSelectedIndex();
+					nombreUsuario = nombreIngresado;
+					presenter.iniciarJuego(nivel);
+					controller.abrirJuego(nombreUsuario, presenter);
 		            
-		         pantallaInicio.setVisible(false);
+					pantallaInicio.setVisible(false);
+				}
 			}
 		});
 		btnPlay.setVerticalAlignment(SwingConstants.BOTTOM);

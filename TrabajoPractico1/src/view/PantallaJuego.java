@@ -27,12 +27,7 @@ public class PantallaJuego {
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public PantallaJuego(Controller controller) {
-		//this.recordHistorico = presenter.getRecord();
-		this.setController(controller);
-		initialize();
-	}
-	
+
 	public PantallaJuego(Controller controller, Presentador presenter) {
 		this.presenter = presenter;
 		this.setController(controller);
@@ -49,19 +44,21 @@ public class PantallaJuego {
 		getPantallaJuego().setSize(1280, 800);
 		getPantallaJuego().setLocationRelativeTo(null);
 		getPantallaJuego().getContentPane().setLayout(null);
+		pantallaJuego.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel puntos = new JPanel();
 		puntos.setBounds(0, 0, 1264, 1);
 		puntos.setBackground(new Color(255, 255, 255));
 		getPantallaJuego().getContentPane().add(puntos);
 		puntos.setLayout(null);
+		
 
 		JPanel juego = new JPanel();
 		juego.setBounds(452, 0, 812, 761);
 		juego.setBackground(SystemColor.windowBorder);
 		juego.setPreferredSize(new Dimension(800, 800));
-		//juego.setLayout(new GridLayout(5,5));			//descomentar para ver el design
-		juego.setLayout(new GridLayout(presenter.tamanioGrilla(), presenter.tamanioGrilla())); //comentar para ver el design
+		juego.setLayout(new GridLayout(5,5));			//descomentar para ver el design
+//		juego.setLayout(new GridLayout(presenter.tamanioGrilla(), presenter.tamanioGrilla())); //comentar para ver el design
 		getPantallaJuego().getContentPane().add(juego);
 
 		JButton[][] botones = new JButton[presenter.tamanioGrilla()][presenter.tamanioGrilla()];
@@ -78,10 +75,27 @@ public class PantallaJuego {
 						Color color = presenter.colorAwt(celda.getColor());
 						botones[x][y].setBackground(color);
 						if(!presenter.validarVecinos(celda)) {
-							//TODO podemos crear otra pantalla de pérdida
+							reiniciarCeldas();
 						}
 						System.out.println(String.format("Color de celda %s, X = %d, Y = %d", celda.getColor().name(),
 								celda.getCoordX(), celda.getCoordY()));
+					}
+					
+					private void reiniciarCeldas() {
+				    	presenter.reiniciarCeldayVecinos(x,y);
+				    	botones[x][y].setBackground(Color.gray);
+				    	
+				    	if(x-1 >= 0)
+				    		botones[x-1][y].setBackground(Color.gray);
+				    	
+				    	if(x+1 <= botones[0].length)
+				    		botones[x+1][y].setBackground(Color.gray);
+				    	
+				    	if(y-1 >= 0)
+				    		botones[x][y-1].setBackground(Color.gray);
+				    	
+				    	if(y+1 <= botones.length)
+				    	botones[x][y+1].setBackground(Color.gray);
 					}
 				});
 				juego.add(botones[i][j]);

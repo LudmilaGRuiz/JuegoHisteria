@@ -13,7 +13,6 @@ public class Presentador {
 
 	public void iniciarJuego(int nivel) {
 		switch(nivel) {
-		case 0 -> throw new RuntimeException("Ingrese un nivel valido");
 		case 1 -> crearGrilla(5);
 		case 2 -> crearGrilla(6);
 		case 3 -> crearGrilla(7);
@@ -22,12 +21,6 @@ public class Presentador {
 		}
 	}
 
-	public Boolean validarVecinos(Celda celda) {
-		Boolean esValido = validadorDeColoresVecinos.validar(grilla, celda);
-		if(!esValido) System.out.println("El color coincide con al menos 1 vecino");
-		return esValido;
-	}
-		
 	public void crearGrilla(int tamaño) {
 		this.grilla = new Celda[tamaño][tamaño];
 		for (int i = 0; i < tamaño; i++) {
@@ -36,6 +29,15 @@ public class Presentador {
 			}
 		}
 	}
+	
+	
+	public Boolean validarVecinos(Celda celda) {
+		Boolean esValido = validadorDeColoresVecinos.validar(grilla, celda);
+		if(!esValido) System.out.println("El color coincide con al menos 1 vecino");
+		return esValido;
+	}
+		
+
 	private ColordeCelda colorRandom () {
 		Random rand = new Random();
 		ColordeCelda[] colores = ColordeCelda.values();
@@ -84,6 +86,30 @@ public class Presentador {
 
 	public int tamanioGrilla() {
 		return grilla.length;
+	}
+	
+	public void reiniciarCeldayVecinos(Integer x, Integer y) {
+		Celda celda = grilla[x][y];
+		celda.setColor(null);
+		
+		// L:left, R:right, U:up, D:down
+		if(x-1 >= 0) {
+			Celda celdaL = grilla[x-1][y];
+			celdaL.setColor(ColordeCelda.GREY);
+		}
+		if(x+1 <= grilla.length) {
+			Celda celdaR = grilla[x+1][y];
+			celdaR.setColor(ColordeCelda.GREY);
+		}
+		if(y+1 <= grilla.length) {
+			Celda celdaU = grilla[x][y+1];
+			celdaU.setColor(ColordeCelda.GREY);
+		}
+			
+		if(y-1 >= 0) {
+			Celda celdaD = grilla[x][y-1];
+			celdaD.setColor(ColordeCelda.GREY);	
+		}	
 	}
 	
 }

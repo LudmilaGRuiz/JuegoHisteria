@@ -39,6 +39,8 @@ public class Celda {
 	}
 
 	public ColordeCelda getColor() {
+		if (color==null)
+			return ColordeCelda.GREY;
 		return color;
 	}
 
