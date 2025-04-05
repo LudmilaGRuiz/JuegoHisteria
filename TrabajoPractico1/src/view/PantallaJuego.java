@@ -5,14 +5,13 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import controller.Controller;
-import model.Celda;
 import model.Presentador;
 
 import java.awt.SystemColor;
@@ -23,6 +22,7 @@ public class PantallaJuego {
 	private JTextField tituloJuego;
 	private Controller controller;
 	private Presentador presenter;
+	private ArrayList<BotonConID> botones;
 
 	/**
 	 * @wbp.parser.constructor
@@ -38,7 +38,7 @@ public class PantallaJuego {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		
+
 		setPantallaJuego(new JFrame());
 		getPantallaJuego().setResizable(false);
 		getPantallaJuego().setSize(1280, 800);
@@ -51,61 +51,48 @@ public class PantallaJuego {
 		puntos.setBackground(new Color(255, 255, 255));
 		getPantallaJuego().getContentPane().add(puntos);
 		puntos.setLayout(null);
-		
 
 		JPanel juego = new JPanel();
 		juego.setBounds(452, 0, 812, 761);
 		juego.setBackground(SystemColor.windowBorder);
 		juego.setPreferredSize(new Dimension(800, 800));
-		juego.setLayout(new GridLayout(5,5));			//descomentar para ver el design
-//		juego.setLayout(new GridLayout(presenter.tamanioGrilla(), presenter.tamanioGrilla())); //comentar para ver el design
+		// juego.setLayout(new GridLayout(5,5)); //descomentar para ver el design
+		juego.setLayout(new GridLayout((int) Math.sqrt(presenter.tamanioGrilla()), (int) Math.sqrt(presenter.tamanioGrilla()))); // comentar
+																															// para
+																															// ver
+																															// el
+																															// design
 		getPantallaJuego().getContentPane().add(juego);
 
-		JButton[][] botones = new JButton[presenter.tamanioGrilla()][presenter.tamanioGrilla()];
-		for (int i = 0; i < botones.length; i++) {
-			for (int j = 0; j < botones[i].length; j++) {
-				botones[i][j] = new JButton();
-				botones[i][j].setBackground(Color.gray);
-				final int x = i;
-				final int y = j;
-				botones[i][j].addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						presenter.cambiarColor(x, y);
-						Celda celda = presenter.getCelda(x, y);
-						Color color = presenter.colorAwt(celda.getColor());
-						botones[x][y].setBackground(color);
-						if(!presenter.validarVecinos(celda)) {
-							reiniciarCeldas();
-						}
-						System.out.println(String.format("Color de celda %s, X = %d, Y = %d", celda.getColor().name(),
-								celda.getCoordX(), celda.getCoordY()));
-					}
-					
-					private void reiniciarCeldas() {
-				    	presenter.reiniciarCeldayVecinos(x,y);
-				    	botones[x][y].setBackground(Color.gray);
-				    	
-				    	if(x-1 >= 0)
-				    		botones[x-1][y].setBackground(Color.gray);
-				    	
-				    	if(x+1 <= botones[0].length)
-				    		botones[x+1][y].setBackground(Color.gray);
-				    	
-				    	if(y-1 >= 0)
-				    		botones[x][y-1].setBackground(Color.gray);
-				    	
-				    	if(y+1 <= botones.length)
-				    	botones[x][y+1].setBackground(Color.gray);
-					}
-				});
-				juego.add(botones[i][j]);
-			}
-		}
+		botones = new ArrayList<BotonConID>();
 
+		for (int i = 0; i < presenter.tamanioGrilla(); i++) {
+			botones.add(new BotonConID(i));
+			botones.get(i).setBackground(Color.gray);
+
+			final int index = i;
+			botones.get(index).addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					presenter.cambiarColor(index);
+					botones.get(index).setBackground(presenter.colorAwt(presenter.getColor(index)));
+					if (presenter.validarColoresVecinos(index)) {
+						PantallaJuego.this.volverGris(presenter.reiniciarCeldayVecinos(index));
+					}
+					presenter.estadoCeldas();
+				}
+			});
+			juego.add(botones.get(index));
+		}
 	}
 
 	public JFrame getPantallaJuego() {
 		return pantallaJuego;
+	}
+
+	public void volverGris(ArrayList<Integer> lista) {
+		for (Integer i : lista) {
+			this.botones.get(i).setBackground(Color.gray);
+		}
 	}
 
 	public void setPantallaJuego(JFrame pantallaJuego) {

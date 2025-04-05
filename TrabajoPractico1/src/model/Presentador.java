@@ -1,42 +1,27 @@
 package model;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Presentador {
 
-	private Celda[][] grilla;
-	private ValidadorDeColoresVecinos validadorDeColoresVecinos;
+	private Grilla grilla;
+	//private ValidadorDeColoresVecinos validadorDeColoresVecinos;
 
 	public Presentador() {
-		this.validadorDeColoresVecinos = new ValidadorDeColoresVecinos();
+		//this.validadorDeColoresVecinos = new ValidadorDeColoresVecinos();
 	}
 
 	public void iniciarJuego(int nivel) {
 		switch(nivel) {
-		case 1 -> crearGrilla(5);
-		case 2 -> crearGrilla(6);
-		case 3 -> crearGrilla(7);
-		case 4 -> crearGrilla(8);
-		case 5 -> crearGrilla(9);
+		case 1 -> grilla = new Grilla(5);
+		case 2 -> grilla = new Grilla(6);
+		case 3 -> grilla = new Grilla(7);
+		case 4 -> grilla = new Grilla(8);
+		case 5 -> grilla = new Grilla(9);
 		}
-	}
-
-	public void crearGrilla(int tamaño) {
-		this.grilla = new Celda[tamaño][tamaño];
-		for (int i = 0; i < tamaño; i++) {
-			for (int j = 0; j < tamaño; j++) {
-				grilla[i][j] = new Celda(i, j);
-			}
-		}
-	}
-	
-	
-	public Boolean validarVecinos(Celda celda) {
-		Boolean esValido = validadorDeColoresVecinos.validar(grilla, celda);
-		if(!esValido) System.out.println("El color coincide con al menos 1 vecino");
-		return esValido;
-	}
-		
+	}		
 
 	private ColordeCelda colorRandom () {
 		Random rand = new Random();
@@ -44,22 +29,21 @@ public class Presentador {
 		return colores[rand.nextInt(colores.length)];
 	}
 	
-	public void cambiarColor (int x, int y) {
-		ColordeCelda nuevoColor = colorRandom ();
-		grilla[x][y].setColor(nuevoColor);
-	}
-	
-	public ColordeCelda getColor(int x, int y) {
-	    return grilla[x][y].getColor();
+	public int tamanioGrilla(){
+		return this.grilla.getGrilla().size();
 	}
 
-	public Celda getCelda(int x, int y) {
-		try {
-			return grilla[x][y];
-		} catch (IndexOutOfBoundsException e) {
-			System.out.println("Error buscando celda, coordenadas inválidas");
-			throw e;
-		}
+	public void cambiarColor (int celda) {
+		ColordeCelda nuevoColor = colorRandom ();
+		this.getCelda(celda).setColor(nuevoColor);
+	}
+	
+	public ColordeCelda getColor(int celda) {
+	    return this.getCelda(celda).getColor();
+	}
+
+	public Celda getCelda(int celda) {
+		return grilla.getGrilla().get(celda);
 	}
 	
     public java.awt.Color colorAwt(ColordeCelda color) {
@@ -84,32 +68,48 @@ public class Presentador {
         }
     }
 
-	public int tamanioGrilla() {
-		return grilla.length;
+	public Celda getCeldaPorID(int idCelda) {
+		return this.grilla.getGrilla().get(idCelda);
+	}
+
+	public Boolean validarColoresVecinos (int idCelda){
+		ColordeCelda ColorCeldaElegida = getCeldaPorID(idCelda).getColor();
+		ArrayList <Celda> vecinosDeCelda = this.grilla.getListaVecinos(idCelda);
+		for (Celda vecino : vecinosDeCelda) {
+			if (vecino.getColor() != null && vecino.getColor().equals(ColorCeldaElegida)){
+				System.out.println("Reiniciando celda y vecinos");
+				return true;
+			}
+		}
+		return false;
+
 	}
 	
-	public void reiniciarCeldayVecinos(Integer x, Integer y) {
-		Celda celda = grilla[x][y];
-		celda.setColor(null);
-		
-		// L:left, R:right, U:up, D:down
-		if(x-1 >= 0) {
-			Celda celdaL = grilla[x-1][y];
-			celdaL.setColor(ColordeCelda.GREY);
+	public ArrayList<Integer> reiniciarCeldayVecinos(int idCelda) {
+		ArrayList <Celda> celdasAReiniciar = new ArrayList<Celda>();
+		ArrayList <Celda> listaVecinos = grilla.getListaVecinos(idCelda);
+		for (Celda vecino : listaVecinos) {
+			celdasAReiniciar.add(vecino);
 		}
-		if(x+1 <= grilla.length) {
-			Celda celdaR = grilla[x+1][y];
-			celdaR.setColor(ColordeCelda.GREY);
+		celdasAReiniciar.add(getCeldaPorID(idCelda));
+		ArrayList<Integer> idsCeldasAReiniciar = new ArrayList<Integer>();
+
+		for (Celda celdaAReiniciar : celdasAReiniciar) {
+			celdaAReiniciar.setColor(null);
+			idsCeldasAReiniciar.add(celdaAReiniciar.getID());
+			System.out.println("Reiniciando celda: " + celdaAReiniciar.getID());
 		}
-		if(y+1 <= grilla.length) {
-			Celda celdaU = grilla[x][y+1];
-			celdaU.setColor(ColordeCelda.GREY);
+		return idsCeldasAReiniciar;
+	}
+
+	public void estadoCeldas (){
+		int contador = 0;
+		for (Celda celdita : this.grilla.getGrilla()) {
+			if (celdita.getColor() == null) {
+				contador++;	
+			}
 		}
-			
-		if(y-1 >= 0) {
-			Celda celdaD = grilla[x][y-1];
-			celdaD.setColor(ColordeCelda.GREY);	
-		}	
+		System.out.println("Cantidad de celdas sin color: " + contador);
 	}
 	
 }

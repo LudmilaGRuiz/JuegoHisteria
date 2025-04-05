@@ -1,46 +1,25 @@
 package model;
 
-import java.util.ArrayList;
-
 public class Celda {
-	private int coordX, coordY;
-	private ArrayList<Celda> vecinos;
+	private int id;
 	private ColordeCelda color;
 
-	public Celda(int coordX, int coordY) {
-		this.coordX = coordX;
-		this.coordY = coordY;
-		this.vecinos = new ArrayList<Celda>();
-		this.color = ColordeCelda.GREY;
+	public Celda(int id) {
+		this.id = id;
+		this.color = null;
 	}
 
-	public int getCoordX() {
-		return coordX;
+	public int getID () {
+		return id;
 	}
 
-	public void setCoordX(int coordX) {
-		this.coordX = coordX;
-	}
-
-	public int getCoordY() {
-		return coordY;
-	}
-
-	public void setCoordY(int coordY) {
-		this.coordY = coordY;
-	}
-
-	public ArrayList<Celda> getVecinos() {
-		return vecinos;
-	}
-
-	public void setVecinos(ArrayList<Celda> vecinos) {
-		this.vecinos = vecinos;
+	public void setID (int id) {
+		this.id = id;
 	}
 
 	public ColordeCelda getColor() {
 		if (color==null)
-			return ColordeCelda.GREY;
+			return null;
 		return color;
 	}
 
