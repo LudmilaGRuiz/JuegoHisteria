@@ -122,7 +122,7 @@ public class PantallaInicio {
 		
 		JComboBox<String> inputNivel = new JComboBox<String>();
 		inputNivel.setBounds(631, 373, 196, 31);
-		inputNivel.setModel(new DefaultComboBoxModel<String>(new String[] {"", "Principiante (5x5)", "Facil (6x6)", "Normal (7x7)", "Dificil (8x8)", "Experto (9x9)"}));
+		inputNivel.setModel(new DefaultComboBoxModel<String>(new String[] {"", "testing","Principiante (5x5)", "Facil (6x6)", "Normal (7x7)", "Dificil (8x8)", "Experto (9x9)"}));
 		pantallaInicio.getContentPane().add(inputNivel);
 		
 		JLabel avisoInputNombre = new JLabel("* Ingrese un nombre válido");
