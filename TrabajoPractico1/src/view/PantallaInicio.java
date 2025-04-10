@@ -4,25 +4,22 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Color;
-import java.awt.Dimension;
-
 import javax.swing.SwingConstants;
-
 import controller.Controller;
 import model.Presentador;
-
 import javax.swing.JButton;
 import java.awt.SystemColor;
-import java.awt.Toolkit;
-
 import javax.swing.JToolBar;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class PantallaInicio {
@@ -43,7 +40,6 @@ public class PantallaInicio {
 	 * @wbp.parser.constructor
 	 */
 	public PantallaInicio() {
-		
 		initialize();
 	}
 	
@@ -90,6 +86,33 @@ public class PantallaInicio {
 		menuBar.add(mnNewMenu);
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("¿Como jugar?");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+		        // Crear nueva ventana (puede ser JDialog o JFrame)
+		        JDialog reglasDialog = new JDialog();
+		        reglasDialog.setTitle("Reglas del Juego");
+		        reglasDialog.setSize(600, 400);
+		        reglasDialog.setLocationRelativeTo(null); // Centrar la ventana
+
+		        JTextArea reglas = new JTextArea("Se busca colorear completamente una grilla de 5×5, pero evitando que dos celdas\r\n"
+		        		+ "vecinas tengan el mismo color. Inicialmente, todas las celdas están sin colorear.\r\n"
+		        		+ "En cada turno, el jugador hace click sobre una celda, y este click tiene el efecto\r\n"
+		        		+ "de cambiar el color de esa casilla a uno aleatorio de entre 6 posibles. La dificultad\r\n"
+		        		+ "consiste en que si este nuevo color coincide con el de alguna casilla vecina, la casilla "
+		        		+ "cambiada y todas sus vecinas se apagarán!");
+		        reglas.setEditable(false);
+		        reglas.setLineWrap(true);
+		        reglas.setWrapStyleWord(true);
+		        reglas.setFont(new Font("Arial", Font.PLAIN, 16));
+
+		        JScrollPane scroll = new JScrollPane(reglas);
+		        reglasDialog.getContentPane().add(scroll);
+
+		        reglasDialog.setModal(true); // Bloquea la ventana principal mientras esta está abierta
+		        reglasDialog.setVisible(true);
+
+			}
+		});
 		mntmNewMenuItem.setSelected(true);
 		mnNewMenu.add(mntmNewMenuItem);
 		
@@ -108,6 +131,7 @@ public class PantallaInicio {
 		nameField.setColumns(10);
 		
 		JLabel lblNombre = new JLabel("Ingrese su nombre:");
+		lblNombre.setForeground(Color.black);
 		lblNombre.setBounds(369, 279, 263, 31);
 		lblNombre.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNombre.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 25));
@@ -115,6 +139,7 @@ public class PantallaInicio {
 
 		
 		JLabel lblNivelDeDificultad = new JLabel("Elige la dificultad:");
+		lblNivelDeDificultad.setForeground(Color.black);
 		lblNivelDeDificultad.setBounds(386, 373, 246, 31);
 		lblNivelDeDificultad.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNivelDeDificultad.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 25));
@@ -164,5 +189,9 @@ public class PantallaInicio {
 		btnPlay.setVerticalAlignment(SwingConstants.BOTTOM);
 		btnPlay.setFont(new Font("Showcard Gothic", Font.BOLD, 30));
 		pantallaInicio.getContentPane().add(btnPlay);
+	}
+	
+	public JFrame getPantallaInicio() {
+		return pantallaInicio;
 	}
 }

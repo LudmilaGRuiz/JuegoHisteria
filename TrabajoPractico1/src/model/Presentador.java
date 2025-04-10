@@ -11,7 +11,7 @@ import java.util.Random;
 public class Presentador {
 
 	private Grilla grilla;
-	private JOptionPane JOptionPane;
+	private Cronometro cronometro;
 	//private ValidadorDeColoresVecinos validadorDeColoresVecinos;
 
 	public Presentador() {
@@ -108,7 +108,7 @@ public class Presentador {
 		return idsCeldasAReiniciar;
 	}
 
-	public void estadoCeldas() {
+	public boolean verificarGrilla() {
 		int contador = 0;
 		for (Celda celdita : this.grilla.getGrilla()) {
 			if (celdita.getColor() == null) {
@@ -118,7 +118,21 @@ public class Presentador {
 		System.out.println("Cantidad de celdas sin color: " + contador);
 
 		if (contador == 0) {
-			new PantallaGanaste();
+			return true;
 		}
+		return false;
 	}
+	
+	
+	public void pantallaGanaste(String nombreUsuario, String tiempoDeJuego) {
+		new PantallaGanaste(nombreUsuario, tiempoDeJuego);
+	}
+	
+
+	public void iniciarCronometro(JLabel lblTiempo) {
+		cronometro = new Cronometro(lblTiempo);
+		cronometro.iniciar();
+	}
+
+
 }

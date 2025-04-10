@@ -13,8 +13,12 @@ import java.awt.event.ActionEvent;
 public class PantallaGanaste {
 
     private JFrame pantallaGanaste;
+    private String tiempoDeJuego;
+    private String nombreUsuario;
 
-    public PantallaGanaste() {
+    public PantallaGanaste(String nombreUsuario,String tiempo) {
+    	this.nombreUsuario = nombreUsuario;
+    	this.tiempoDeJuego = tiempo;
         initialize();
     }
 
@@ -27,16 +31,23 @@ public class PantallaGanaste {
         pantallaGanaste.getContentPane().setBackground(SystemColor.textHighlight);
         pantallaGanaste.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JLabel lblMensaje = new JLabel("¡Ganaste!");
-        lblMensaje.setBounds(200, 100, 800, 200);
+        JLabel lblMensaje = new JLabel("Felicitaciones, "+ nombreUsuario +" !Ganaste!");
+        lblMensaje.setBounds(201, 155, 800, 123);
         lblMensaje.setHorizontalAlignment(SwingConstants.CENTER);
         lblMensaje.setForeground(Color.WHITE);
         lblMensaje.setFont(new Font("Gill Sans Ultra Bold Condensed", Font.BOLD, 50));
         pantallaGanaste.getContentPane().add(lblMensaje);
+        
+        JLabel lblTiempoDeJuego = new JLabel("Tiempo: " + tiempoDeJuego);
+        lblTiempoDeJuego.setBounds(188, 303, 800, 72);
+        lblTiempoDeJuego.setHorizontalAlignment(SwingConstants.CENTER);
+        lblTiempoDeJuego.setForeground(Color.WHITE);
+        lblTiempoDeJuego.setFont(new Font("Gill Sans Ultra Bold Condensed", Font.BOLD, 50));
+        pantallaGanaste.getContentPane().add(lblTiempoDeJuego);
 
         // Botón centrado dinámicamente
         JButton btnCerrar = new JButton("Salir");
-        btnCerrar.setBounds((pantallaGanaste.getWidth() - 200) / 2, (pantallaGanaste.getHeight() - 50) / 2, 200, 50);
+        btnCerrar.setBounds(501, 437, 200, 50);
         btnCerrar.setFont(new Font("Segoe UI", Font.BOLD, 20));
         btnCerrar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
