@@ -1,6 +1,6 @@
-package controller;
+package presenter;
 
-import model.Presentador;
+import model.Juego;
 import view.PantallaInicio;
 import java.awt.EventQueue;
 
@@ -11,8 +11,9 @@ public class Main {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    Presentador presenter = new Presentador();
+                    Juego presenter = new Juego();
                     PantallaInicio inicio = new PantallaInicio(presenter);
+                    inicio.getPantallaInicio().setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

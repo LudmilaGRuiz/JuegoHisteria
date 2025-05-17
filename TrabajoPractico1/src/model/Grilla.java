@@ -1,48 +1,56 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Grilla {
-	private ArrayList<Celda> grilla;
-	private HashMap<Integer, ArrayList<Celda>> listaVecinos;
+	private Celda[][] grilla;
 
 	public Grilla(int tamanio) {
-		this.grilla = new ArrayList<Celda>();
-		this.listaVecinos = new HashMap<Integer, ArrayList<Celda>>();
-
-		for (int i = 0; i < tamanio*tamanio; i++) {
-			Celda celda = new Celda(i);
-			grilla.add(celda);
-			listaVecinos.put(i, new ArrayList<Celda>());
-		}
-		for (int i = 0; i < tamanio*tamanio; i++) {
-			if ((i + 1) % tamanio != 0) {
-				listaVecinos.get(i).add(grilla.get(i + 1));
-				listaVecinos.get(i + 1).add(grilla.get(i));
-			}
-			if (i + tamanio < tamanio * tamanio) {
-				listaVecinos.get(i).add(grilla.get(i + tamanio));
-				listaVecinos.get(i + tamanio).add(grilla.get(i));
+		this.grilla = new Celda[tamanio][tamanio];
+		for (int i = 0; i < tamanio; i++) {
+			for (int j = 0; j < tamanio; j++) {
+				grilla[i][j] = new Celda(i, j);
 			}
 		}
-
 	}
 
-	public ArrayList<Celda> getGrilla() {
+	public Celda getCelda(int x, int y) {
+		return grilla[x][y];
+	}
+
+    public ArrayList<Celda> getListaVecinos(int x, int y) {
+        ArrayList<Celda> listaVecinos = new ArrayList<Celda>();
+        if(x+1<grilla.length)
+        	listaVecinos.add(grilla[x+1][y]);
+        if(x-1>=0)
+        	listaVecinos.add(grilla[x-1][y]);
+        if(y+1<grilla.length)
+        	listaVecinos.add(grilla[x][y+1]);
+        if(y-1>=0)
+        	listaVecinos.add(grilla[x][y-1]); 
+        return listaVecinos;
+    }
+
+	public int getLength() {
+		return grilla.length;
+	}
+
+	public Celda[][] getGrilla() {
 		return grilla;
 	}
 
-	public void setGrilla(ArrayList<Celda> grilla) {
+	public void setGrilla(Celda[][] grilla) {
 		this.grilla = grilla;
 	}
 
-	public HashMap<Integer, ArrayList<Celda>> getListaVecinosEntera() {
-		return listaVecinos;
+	public boolean verificarGrilla() {
+		if(grilla==null || grilla.length==0)
+			return false;
+		int contador = 0;
+		for (int fila=0; fila<grilla.length; fila++)
+			for (int col=0; col<grilla.length; col++)
+				if (grilla[fila][col].getColor() == ColordeCelda.GREY) 
+					contador++;
+		return contador == 0;
 	}
-
-    public ArrayList<Celda> getListaVecinos(int celda) {
-        return listaVecinos.get(celda);
-    }
-
 }

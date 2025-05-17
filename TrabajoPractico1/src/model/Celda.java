@@ -1,25 +1,32 @@
 package model;
 
 public class Celda {
-	private int id;
+	private int coordX, coordY;
 	private ColordeCelda color;
 
-	public Celda(int id) {
-		this.id = id;
-		this.color = null;
+	public Celda(int coordX, int coordY) {
+		this.coordX = coordX;
+		this.coordY = coordY;
+		this.color = ColordeCelda.GREY;
 	}
 
-	public int getID () {
-		return id;
+	public int getCoordX() {
+		return coordX;
 	}
 
-	public void setID (int id) {
-		this.id = id;
+	public void setCoordX(int coordX) {
+		this.coordX = coordX;
 	}
 
+	public int getCoordY() {
+		return coordY;
+	}
+
+	public void setCoordY(int coordY) {
+		this.coordY = coordY;
+	}
+	
 	public ColordeCelda getColor() {
-		if (color==null)
-			return null;
 		return color;
 	}
 

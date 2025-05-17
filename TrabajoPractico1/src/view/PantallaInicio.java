@@ -5,8 +5,10 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.SwingConstants;
-import controller.Controller;
-import model.Presentador;
+
+import model.Juego;
+import presenter.Controller;
+
 import javax.swing.JButton;
 import java.awt.SystemColor;
 import javax.swing.JToolBar;
@@ -24,7 +26,7 @@ import javax.swing.JTextField;
 
 public class PantallaInicio {
 
-	private Presentador presenter;
+	private Juego presenter;
 	private Controller controller;
 	private JFrame pantallaInicio;
 	private JTextField nameField;
@@ -43,7 +45,7 @@ public class PantallaInicio {
 		initialize();
 	}
 	
-	public PantallaInicio(Presentador presenter) {
+	public PantallaInicio(Juego presenter) {
 		this.presenter = presenter;
 		initialize();
 	}
@@ -52,8 +54,7 @@ public class PantallaInicio {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
-		
+	private void initialize() {		
 		pantallaInicio = new JFrame();
 		pantallaInicio.setResizable(false);
 		pantallaInicio.setSize(1200, 800);
@@ -116,15 +117,6 @@ public class PantallaInicio {
 		mntmNewMenuItem.setSelected(true);
 		mnNewMenu.add(mntmNewMenuItem);
 		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Informacion");
-		mntmNewMenuItem_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//controller.informacionDelTrabajo();
-			}
-		});
-		mntmNewMenuItem_1.setSelected(true);
-		mnNewMenu.add(mntmNewMenuItem_1);
-		
 		nameField = new JTextField();
 		nameField.setBounds(631, 279, 228, 29);
 		pantallaInicio.getContentPane().add(nameField);
@@ -147,7 +139,7 @@ public class PantallaInicio {
 		
 		JComboBox<String> inputNivel = new JComboBox<String>();
 		inputNivel.setBounds(631, 373, 196, 31);
-		inputNivel.setModel(new DefaultComboBoxModel<String>(new String[] {"", "testing","Principiante (5x5)", "Facil (6x6)", "Normal (7x7)", "Dificil (8x8)", "Experto (9x9)"}));
+		inputNivel.setModel(new DefaultComboBoxModel<String>(new String[] {"", "Principiante (5x5)", "Facil (6x6)", "Normal (7x7)", "Dificil (8x8)", "Experto (9x9)"}));
 		pantallaInicio.getContentPane().add(inputNivel);
 		
 		JLabel avisoInputNombre = new JLabel("* Ingrese un nombre válido");
