@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -14,21 +13,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
-
-import model.Celda;
-import model.Cronometro;
-import model.Juego;
+import java.awt.SystemColor;
 import presenter.Controller;
 
-import java.awt.SystemColor;
 
 public class PantallaJuego {
 
 	private JFrame pantallaJuego;
-	private JTextField tituloJuego;
 	private Controller controller;
-	private Juego presenter;
+	private JButton[][] botones;
 	private String nombreUsuario;
 	private JLabel lblTiempo;
 
@@ -36,10 +29,9 @@ public class PantallaJuego {
 	 * @wbp.parser.constructor
 	 */
 
-	public PantallaJuego(Controller controller, String nombreUsuario, Juego presenter) {
+	public PantallaJuego(Controller controller, String nombreUsuario) {
 		this.nombreUsuario = nombreUsuario;
-		this.presenter = presenter;
-		this.setController(controller);
+		this.controller = controller;
 		initialize();
 		this.iniciarCronometro(lblTiempo);
 	}
@@ -52,12 +44,12 @@ public class PantallaJuego {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-
-		setPantallaJuego(new JFrame());
-		getPantallaJuego().setResizable(false);
-		getPantallaJuego().setSize(1280, 800);
-		getPantallaJuego().setLocationRelativeTo(null);
-		getPantallaJuego().getContentPane().setLayout(null);
+		
+		pantallaJuego = new JFrame();
+		pantallaJuego.setResizable(false);
+		pantallaJuego.setSize(1280, 800);
+		pantallaJuego.setLocationRelativeTo(null);
+		pantallaJuego.getContentPane().setLayout(null);
 		pantallaJuego.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	
 		lblTiempo = new JLabel("00:00:00");
@@ -101,7 +93,7 @@ public class PantallaJuego {
 		btnMenu.setFont(new Font("Arial", Font.BOLD, 16));
 		btnMenu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-		        controller.irAMenu(presenter);
+		        controller.irAMenu();
 		        pantallaJuego.dispose();
 		        
 			}
@@ -113,72 +105,47 @@ public class PantallaJuego {
 		juego.setBounds(452, 0, 812, 761);
 		juego.setBackground(SystemColor.windowBorder);
 		juego.setPreferredSize(new Dimension(800, 800));
-//		juego.setLayout(new GridLayout(5,5));			//descomentar para ver el design
-		juego.setLayout(new GridLayout(presenter.tamanioGrilla(), presenter.tamanioGrilla())); //comentar para ver el design
-		getPantallaJuego().getContentPane().add(juego);
+		juego.setLayout(new GridLayout(controller.tamanioGrilla(), controller.tamanioGrilla()));
+		pantallaJuego.getContentPane().add(juego);
 
-		JButton[][] botones = new JButton[presenter.tamanioGrilla()][presenter.tamanioGrilla()];
-		for (int i = 0; i < botones.length; i++) {
-			for (int j = 0; j < botones[i].length; j++) {
-				botones[i][j] = new JButton();
-				botones[i][j].setBackground(Color.gray);
+		botones = new JButton[controller.tamanioGrilla()][controller.tamanioGrilla()];
+		for (int i=0; i<botones.length; i++) {
+			for (int j=0; j<botones[i].length; j++) {
 				final int x = i;
 				final int y = j;
-				botones[i][j].addActionListener(new ActionListener() {
+				botones[x][y] = new JButton();
+				botones[x][y].setBackground(Color.gray);
+				botones[x][y].addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						presenter.cambiarColor(x, y);
-						Celda celda = presenter.getCelda(x, y);
-						Color color = presenter.colorAwt(celda.getColor());
+						Color color = controller.nuevoColorCelda(x, y);
 						botones[x][y].setBackground(color);
+						if(controller.validarColoresVecinos(x, y)) 
+							PantallaJuego.this.reiniciarBotones(x, y);
 						
-						if(presenter.validarColoresVecinos(x,y)) 
-							reiniciarBotones();
-						
-						if(presenter.verificarGrilla()) {
+						if(controller.grillaCompleta()) {
 							pantallaJuego.dispose();
-							controller.pantallaGanaste(nombreUsuario, lblTiempo.getText());
+							controller.abrirPantallaGanaste(nombreUsuario, lblTiempo.getText());
 						}
 					}					
-					private void reiniciarBotones() {
-				    	presenter.reiniciarCeldayVecinos(x,y);
-				    	botones[x][y].setBackground(Color.gray);
-				    	if(x-1 >= 0)
-				    		botones[x-1][y].setBackground(Color.gray);				    	
-				    	if(x+1 < botones[0].length)
-				    		botones[x+1][y].setBackground(Color.gray);				    	
-				    	if(y-1 >= 0)
-				    		botones[x][y-1].setBackground(Color.gray);				    	
-				    	if(y+1 < botones.length)
-				    	botones[x][y+1].setBackground(Color.gray);
-					}
 				});
-				juego.add(botones[i][j]);
+				juego.add(botones[x][y]);
 			}
 		}
 	}
-
+	private void reiniciarBotones(int x, int y) {
+    	controller.reiniciarCeldayVecinos(x,y);
+    	botones[x][y].setBackground(Color.gray);
+    	if(x-1 >= 0)
+    		botones[x-1][y].setBackground(Color.gray);				    	
+    	if(x+1 < botones[0].length)
+    		botones[x+1][y].setBackground(Color.gray);				    	
+    	if(y-1 >= 0)
+    		botones[x][y-1].setBackground(Color.gray);				    	
+    	if(y+1 < botones.length)
+    		botones[x][y+1].setBackground(Color.gray);
+	}
+	
 	public JFrame getPantallaJuego() {
 		return pantallaJuego;
 	}
-
-	public void setPantallaJuego(JFrame pantallaJuego) {
-		this.pantallaJuego = pantallaJuego;
-	}
-
-	public JTextField getTituloJuego() {
-		return tituloJuego;
-	}
-
-	public void setTituloJuego(JTextField tituloJuego) {
-		this.tituloJuego = tituloJuego;
-	}
-
-	public Controller getController() {
-		return controller;
-	}
-
-	public void setController(Controller controller) {
-		this.controller = controller;
-	}
-
 }

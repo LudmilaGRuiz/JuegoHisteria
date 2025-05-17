@@ -22,7 +22,7 @@ public class PantallaGanaste {
         initialize();
     }
 
-    private void initialize() {
+	private void initialize() {
         pantallaGanaste = new JFrame();
         pantallaGanaste.setResizable(false);
         pantallaGanaste.setSize(1200, 800);
@@ -31,7 +31,7 @@ public class PantallaGanaste {
         pantallaGanaste.getContentPane().setBackground(SystemColor.textHighlight);
         pantallaGanaste.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JLabel lblMensaje = new JLabel("Felicitaciones, "+ nombreUsuario +" !Ganaste!");
+        JLabel lblMensaje = new JLabel("FELICITACIONES, "+ nombreUsuario.toUpperCase() +" !GANASTE!");
         lblMensaje.setBounds(201, 155, 800, 123);
         lblMensaje.setHorizontalAlignment(SwingConstants.CENTER);
         lblMensaje.setForeground(Color.WHITE);
@@ -55,7 +55,9 @@ public class PantallaGanaste {
             }
         });
         pantallaGanaste.getContentPane().add(btnCerrar);
-
-        pantallaGanaste.setVisible(true);
     }
+	
+    public JFrame getPantallaGanaste() {
+		return pantallaGanaste;
+	}
 }

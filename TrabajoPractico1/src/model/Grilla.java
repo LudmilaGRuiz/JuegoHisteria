@@ -14,10 +14,6 @@ public class Grilla {
 		}
 	}
 
-	public Celda getCelda(int x, int y) {
-		return grilla[x][y];
-	}
-
     public ArrayList<Celda> getListaVecinos(int x, int y) {
         ArrayList<Celda> listaVecinos = new ArrayList<Celda>();
         if(x+1<grilla.length)
@@ -31,26 +27,26 @@ public class Grilla {
         return listaVecinos;
     }
 
-	public int getLength() {
-		return grilla.length;
-	}
-
-	public Celda[][] getGrilla() {
-		return grilla;
-	}
-
-	public void setGrilla(Celda[][] grilla) {
-		this.grilla = grilla;
-	}
-
 	public boolean verificarGrilla() {
 		if(grilla==null || grilla.length==0)
 			return false;
 		int contador = 0;
 		for (int fila=0; fila<grilla.length; fila++)
 			for (int col=0; col<grilla.length; col++)
-				if (grilla[fila][col].getColor() == ColordeCelda.GREY) 
+				if (grilla[fila][col]!=null && grilla[fila][col].getColor()==ColordeCelda.GREY) 
 					contador++;
 		return contador == 0;
+	}
+
+	public void setColorCelda(int x, int y, ColordeCelda nuevoColor) {
+		grilla[x][y].setColor(nuevoColor);
+	}
+	
+	public Celda getCelda(int x, int y) {
+		return grilla[x][y];
+	}
+	
+	public int getLength() {
+		return grilla.length;
 	}
 }

@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.Color;
 import javax.swing.SwingConstants;
 
-import model.Juego;
 import presenter.Controller;
 
 import javax.swing.JButton;
@@ -25,8 +24,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class PantallaInicio {
-
-	private Juego presenter;
 	private Controller controller;
 	private JFrame pantallaInicio;
 	private JTextField nameField;
@@ -41,16 +38,10 @@ public class PantallaInicio {
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public PantallaInicio() {
+	public PantallaInicio(Controller controller) {
+		this.controller = controller;
 		initialize();
 	}
-	
-	public PantallaInicio(Juego presenter) {
-		this.presenter = presenter;
-		initialize();
-	}
-
-
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -64,8 +55,6 @@ public class PantallaInicio {
 		pantallaInicio.getContentPane().setBackground(SystemColor.textHighlight);
 		pantallaInicio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pantallaInicio.setVisible(true);
-		
-		controller = new Controller();
 		pantallaInicio.getContentPane().setLayout(null);
 		
 		JLabel lblMenuText = new JLabel("HISTERIA");
@@ -171,9 +160,8 @@ public class PantallaInicio {
 				else{
 					nivel = inputNivel.getSelectedIndex();
 					nombreUsuario = nombreIngresado;
-					presenter.iniciarJuego(nivel);
-					controller.abrirJuego(nombreUsuario, presenter);
-		            
+					controller.iniciarJuego(nivel);
+					controller.abrirPantallaJuego(nombreUsuario);
 					pantallaInicio.setVisible(false);
 				}
 			}

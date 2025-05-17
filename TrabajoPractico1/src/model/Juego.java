@@ -1,11 +1,11 @@
 package model;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Juego {
 	private Grilla grilla;
-	//private ValidadorDeColoresVecinos validadorDeColoresVecinos;
 
 	public Juego() {
 	}
@@ -20,27 +20,16 @@ public class Juego {
 		}
 	}
 
+	public Color cambiarColorCelda (int x, int y) {
+		ColordeCelda color = colorRandom ();
+		grilla.setColorCelda(x, y, color);
+		return colorAwt(color);
+	}
+	
 	private ColordeCelda colorRandom() {
 		Random rand = new Random();
 		ColordeCelda[] colores = ColordeCelda.values();
 		return colores[rand.nextInt(colores.length-1)];
-	}
-
-	public int tamanioGrilla() {
-		return this.grilla.getLength();
-	}
-
-	public void cambiarColor (int x, int y) {
-		ColordeCelda nuevoColor = colorRandom ();
-		grilla.getCelda(x, y).setColor(nuevoColor);
-	}
-
-	public ColordeCelda getColor(int x, int y) {
-		return grilla.getCelda(x, y).getColor();
-	}
-
-	public Celda getCelda(int x, int y) {
-		return grilla.getCelda(x, y);
 	}
 
     public java.awt.Color colorAwt(ColordeCelda color) {
@@ -69,40 +58,46 @@ public class Juego {
 	public boolean validarColoresVecinos(int x, int y) {
 		ColordeCelda ColorCeldaElegida = getCelda(x,y).getColor();
 		ArrayList<Celda> vecinosDeCelda = grilla.getListaVecinos(x,y);
-		for (Celda vecino : vecinosDeCelda) {
-			if (vecino.getColor() != null && vecino.getColor().equals(ColorCeldaElegida)) {
-				System.out.println("Reiniciando celda y vecinos");
+		for (Celda vecino : vecinosDeCelda)
+			if (vecino.getColor() != null && vecino.getColor().equals(ColorCeldaElegida))
 				return true;
-			}
-		}
 		return false;
-
 	}
 
 	public void reiniciarCeldayVecinos(int x, int y) {
 		Celda celda = grilla.getCelda(x, y);
 		celda.setColor(ColordeCelda.GREY);
 		
-		// L:left, R:right, U:up, D:down
 		if(x-1 >= 0) {
-			Celda celdaL = grilla.getCelda(x-1, y);
-			celdaL.setColor(ColordeCelda.GREY);
+			Celda celdaIzq = grilla.getCelda(x-1, y);
+			celdaIzq.setColor(ColordeCelda.GREY);
 		}
 		if(x+1 < grilla.getLength()) {
-			Celda celdaR = grilla.getCelda(x+1, y);
-			celdaR.setColor(ColordeCelda.GREY);
+			Celda celdaDer = grilla.getCelda(x+1, y);
+			celdaDer.setColor(ColordeCelda.GREY);
 		}
 		if(y+1 < grilla.getLength()) {
-			Celda celdaU = grilla.getCelda(x, y+1);
-			celdaU.setColor(ColordeCelda.GREY);
-		}
-			
+			Celda celdaArriba = grilla.getCelda(x, y+1);
+			celdaArriba.setColor(ColordeCelda.GREY);
+		}	
 		if(y-1 >= 0) {
-			Celda celdaD = grilla.getCelda(x,y-1);
-			celdaD.setColor(ColordeCelda.GREY);	
+			Celda celdaAbajo = grilla.getCelda(x,y-1);
+			celdaAbajo.setColor(ColordeCelda.GREY);	
 		}	
 	}
 
+	public ColordeCelda getColor(int x, int y) {
+		return grilla.getCelda(x, y).getColor();
+	}
+
+	public int tamanioGrilla() {
+		return grilla.getLength();
+	}
+	
+	public Celda getCelda(int x, int y) {
+		return grilla.getCelda(x, y);
+	}
+	
 	public boolean verificarGrilla() {
 		return grilla.verificarGrilla();
 	}
