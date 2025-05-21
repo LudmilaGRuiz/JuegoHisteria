@@ -30,11 +30,6 @@ public class PantallaInicio {
 	private String nombreUsuario;
 	private Integer nivel;
 	
-
-	/**
-	 * Create the application.
-	 */
-	
 	/**
 	 * @wbp.parser.constructor
 	 */
@@ -42,9 +37,7 @@ public class PantallaInicio {
 		this.controller = controller;
 		initialize();
 	}
-	/**
-	 * Initialize the contents of the frame.
-	 */
+
 	private void initialize() {		
 		pantallaInicio = new JFrame();
 		pantallaInicio.setResizable(false);
@@ -78,11 +71,10 @@ public class PantallaInicio {
 		JMenuItem mntmNewMenuItem = new JMenuItem("¿Como jugar?");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-		        // Crear nueva ventana (puede ser JDialog o JFrame)
 		        JDialog reglasDialog = new JDialog();
 		        reglasDialog.setTitle("Reglas del Juego");
 		        reglasDialog.setSize(600, 400);
-		        reglasDialog.setLocationRelativeTo(null); // Centrar la ventana
+		        reglasDialog.setLocationRelativeTo(null);
 
 		        JTextArea reglas = new JTextArea("Se busca colorear completamente una grilla de 5×5, pero evitando que dos celdas\r\n"
 		        		+ "vecinas tengan el mismo color. Inicialmente, todas las celdas están sin colorear.\r\n"
@@ -98,7 +90,7 @@ public class PantallaInicio {
 		        JScrollPane scroll = new JScrollPane(reglas);
 		        reglasDialog.getContentPane().add(scroll);
 
-		        reglasDialog.setModal(true); // Bloquea la ventana principal mientras esta está abierta
+		        reglasDialog.setModal(true);
 		        reglasDialog.setVisible(true);
 
 			}

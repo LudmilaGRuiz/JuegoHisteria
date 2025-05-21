@@ -40,9 +40,6 @@ public class PantallaJuego {
 		Cronometro cronometro = new Cronometro(lblTiempo);
 		cronometro.iniciar();
 	}
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		
 		pantallaJuego = new JFrame();
@@ -66,7 +63,7 @@ public class PantallaJuego {
 		        JDialog reglasDialog = new JDialog();
 		        reglasDialog.setTitle("Reglas del Juego");
 		        reglasDialog.setSize(600, 400);
-		        reglasDialog.setLocationRelativeTo(null); // Centrar la ventana
+		        reglasDialog.setLocationRelativeTo(null); 
 
 		        JTextArea reglas = new JTextArea("Se busca colorear completamente una grilla de 5×5, pero evitando que dos celdas\r\n"
 		        		+ "vecinas tengan el mismo color. Inicialmente, todas las celdas están sin colorear.\r\n"
@@ -82,7 +79,7 @@ public class PantallaJuego {
 		        JScrollPane scroll = new JScrollPane(reglas);
 		        reglasDialog.getContentPane().add(scroll);
 
-		        reglasDialog.setModal(true); // Bloquea la ventana principal mientras esta está abierta
+		        reglasDialog.setModal(true); 
 		        reglasDialog.setVisible(true);
 			}
 		});
